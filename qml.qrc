@@ -5,7 +5,7 @@
         <file>start/FluIcon.qml</file>
         <file>start/FluIconButton.qml</file>
         <file>start/FluToggleSwitch.qml</file>
-        <file>start/FluWindow.qml</file>
+        <file>start/MainWindow.qml</file>
         <file>start/StandardWindow.qml</file>
         <file>start/favicon.ico</file>
     </qresource>

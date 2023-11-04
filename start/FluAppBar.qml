@@ -47,7 +47,7 @@ Rectangle{
         d.win.close()
     }
     property var stayTopClickListener: function(){
-        if(d.win instanceof FluWindow){
+        if(d.win instanceof MainWindow){
             d.win.stayTop = !d.win.stayTop
         }
     }
@@ -69,7 +69,7 @@ Rectangle{
         id:d
         property var win: Window.window
         property bool stayTop: {
-            if(d.win instanceof FluWindow){
+            if(d.win instanceof MainWindow){
                 return d.win.stayTop
             }
             return false
@@ -134,7 +134,7 @@ Rectangle{
             Layout.alignment: Qt.AlignVCenter
             iconSize: 13
             visible: {
-                if(!(d.win instanceof FluWindow)){
+                if(!(d.win instanceof MainWindow)){
                     return false
                 }
                 return showStayTop

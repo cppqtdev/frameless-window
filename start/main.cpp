@@ -29,13 +29,7 @@
 #include "src/component/FpsItem.h"
 #include "src/helper/SettingsHelper.h"
 
-#ifdef FLUENTUI_BUILD_STATIC_LIB
-#if (QT_VERSION > QT_VERSION_CHECK(6, 2, 0))
-Q_IMPORT_QML_PLUGIN(FluentUIPlugin)
-#endif
-#include <FluentUI.h>
-#endif
-using namespace wangwenx190::FramelessHelper;
+
 int main(int argc, char *argv[])
 {
 
