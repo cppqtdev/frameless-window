@@ -32,7 +32,7 @@ SOURCES += \
 	src/start/src/helper/SettingsHelper.cpp
 
 RESOURCES += src/Qt5/imports/fluentui.qrc
-
+win32:RC_ICONS += src/Qt5/imports/start/app.ico
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
