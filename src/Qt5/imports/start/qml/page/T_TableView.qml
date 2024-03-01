@@ -8,16 +8,15 @@ import "../component"
 FluContentPage{
 
     id:root
-    title:"TableView"
+    title: "Generate Report"
     signal checkBoxChanged
 
     property var dataSource : []
     property int sortType: 0
 
     Component.onCompleted: {
-        loadData(1,1000)
+        loadData(1,15)
     }
-
     onSortTypeChanged: {
         table_view.closeEditor()
         if(sortType === 0){
@@ -51,23 +50,24 @@ FluContentPage{
         Item{
             RowLayout{
                 anchors.centerIn: parent
+
                 FluButton{
-                    text:"删除"
+                    text:"delete"
                     onClicked: {
                         table_view.closeEditor()
                         tableModel.removeRow(row)
                         checkBoxChanged()
                     }
                 }
-                FluFilledButton{
-                    text:"编辑"
-                    onClicked: {
-                        var obj = tableModel.getRow(row)
-                        obj.name = "12345"
-                        tableModel.setRow(row,obj)
-                        showSuccess(JSON.stringify(tableModel.getRow(row)))
-                    }
-                }
+
+                //                FluFilledButton{
+                //                    text:"edit"
+                //                    onClicked: {
+                //                        var obj = tableModel.getRow(row)
+                //                        obj.name = "12345"
+                //                        tableModel.setRow(row,obj)
+                //                    }
+                //                }
             }
         }
     }
@@ -79,7 +79,7 @@ FluContentPage{
             RowLayout{
                 anchors.centerIn: parent
                 FluText{
-                    text:"全选"
+                    text:"select all"
                     Layout.alignment: Qt.AlignVCenter
                 }
                 FluCheckBox{
@@ -162,7 +162,7 @@ FluContentPage{
         id:com_column_sort_age
         Item{
             FluText{
-                text:"年龄"
+                text:"Age"
                 anchors.centerIn: parent
             }
             ColumnLayout{
@@ -224,84 +224,94 @@ FluContentPage{
             left: parent.left
             right: parent.right
             top: parent.top
-            bottom: gagination.top
+            bottom: footer.top
         }
+        anchors.leftMargin: 10
         anchors.topMargin: 20
         columnSource:[
             {
-                title: table_view.customItem(com_column_checbox,{checked:true}),
-                dataIndex: 'checkbox',
-                width:80,
-                minimumWidth:80,
-                maximumWidth:80,
-            },
-            {
-                title: '头像',
-                dataIndex: 'avatar',
-                width:100,
-                minimumWidth:100,
-                maximumWidth:100
-            },
-            {
-                title: '姓名',
+                title: 'Investigation',
                 dataIndex: 'name',
-                readOnly:true,
+                //readOnly:true,
+                width:200,
             },
             {
-                title: table_view.customItem(com_column_sort_age,{sort:0}),
+                title: "Result",
                 dataIndex: 'age',
-                editDelegate:com_combobox,
+                editDelegate: com_combobox,
                 width:100,
                 minimumWidth:100,
                 maximumWidth:100
             },
             {
-                title: '住址',
+                title: 'Reference Value',
                 dataIndex: 'address',
                 width:200,
-                minimumWidth:100,
-                maximumWidth:250
+                minimumWidth:200,
+                maximumWidth:350
             },
             {
-                title: '别名',
+                title: 'Unit',
                 dataIndex: 'nickname',
                 width:100,
                 minimumWidth:80,
                 maximumWidth:200
             },
             {
-                title: '长字符串',
-                dataIndex: 'longstring',
-                width:200,
-                minimumWidth:100,
-                maximumWidth:300
-            },
-            {
-                title: '操作',
+                title: ' ',
                 dataIndex: 'action',
-                width:160,
-                minimumWidth:160,
-                maximumWidth:160
+                width:200,
+                minimumWidth:200,
+                maximumWidth:200
             }
         ]
     }
 
-    FluPagination{
-        id:gagination
+    RowLayout{
+        id: footer
+        width: parent.width
+        height: 50
+        spacing: 10
         anchors{
             bottom: parent.bottom
             left: parent.left
         }
-        pageCurrent: 1
-        itemCount: 100000
-        pageButtonCount: 7
-        __itemPerPage: 1000
-        onRequestPage:
-            (page,count)=> {
-                table_view.closeEditor()
-                loadData(page,count)
-                table_view.resetPosition()
+        FluFilledButton{
+            Layout.alignment: Qt.AlignVCenter
+            text: "Print"
+            onClicked: {
+                for(let i = 0;i<table_view.tableModel.rowCount;i++){
+                    var data = table_view.tableModel.getRow(i)
+                    var person = {
+                        "name": data.name,
+                        "age": data.age,
+                        "address":data.address,
+                        "nickname": data.nickname
+                    };
+                    console.log(JSON.stringify(person))
+                }
             }
+        }
+        FluButton{
+            Layout.alignment: Qt.AlignVCenter
+            text:"Discard"
+            onClicked: {
+                loadData(1,15)
+            }
+        }
+        FluButton{
+            Layout.alignment: Qt.AlignVCenter
+            text:"Add Field"
+            onClicked: {
+                addField()
+                for(let i = 0;i<table_view.tableModel.rowCount;i++){
+                    table_view.increasePosition()
+                }
+            }
+        }
+        Item{
+            Layout.fillWidth: true
+        }
     }
 
     function loadData(page,count){
@@ -310,38 +320,32 @@ FluContentPage{
             var randomIndex = Math.floor(Math.random() * numbers.length);
             return numbers[randomIndex];
         }
-        var names = ["孙悟空", "猪八戒", "沙和尚", "唐僧","白骨夫人","金角大王","熊山君","黄风怪","银角大王"];
+
+        var names = ["Sun Wukong", "Zhu Bajie", "Monk Sha", "Tang Monk", "Mrs. Bones", "Golden Horn King", "Xiong Shanjun", "Yellow Wind Monster", "Silver Horn King"];
         function getRandomName(){
             var randomIndex = Math.floor(Math.random() * names.length);
             return names[randomIndex];
         }
-        var nicknames = ["复海大圣","混天大圣","移山大圣","通风大圣","驱神大圣","齐天大圣","平天大圣"]
+
+        var nicknames = ["g/dL","mill/cumm","%","fL","pg","g/dL","cumm"]
         function getRandomNickname(){
             var randomIndex = Math.floor(Math.random() * nicknames.length);
             return nicknames[randomIndex];
         }
-        var addresses = ["傲来国界花果山水帘洞","傲来国界坎源山脏水洞","大唐国界黑风山黑风洞","大唐国界黄风岭黄风洞","大唐国界骷髅山白骨洞","宝象国界碗子山波月洞","宝象国界平顶山莲花洞","宝象国界压龙山压龙洞","乌鸡国界号山枯松涧火云洞","乌鸡国界衡阳峪黑水河河神府"]
+
+        var addresses = ["100 - 200","50 - 100","500 - 2000","1000 - 20000","200 - 500"]
         function getRandomAddresses(){
             var randomIndex = Math.floor(Math.random() * addresses.length);
             return addresses[randomIndex];
         }
 
-        var avatars = ["qrc:/res/svg/avatar_1.svg", "qrc:/res/svg/avatar_2.svg", "qrc:/res/svg/avatar_3.svg", "qrc:/res/svg/avatar_4.svg","qrc:/res/svg/avatar_5.svg","qrc:/res/svg/avatar_6.svg","qrc:/res/svg/avatar_7.svg","qrc:/res/svg/avatar_8.svg","qrc:/res/svg/avatar_9.svg","qrc:/res/svg/avatar_10.svg","qrc:/res/svg/avatar_11.svg","qrc:/res/svg/avatar_12.svg"];
-        function getAvatar(){
-            var randomIndex = Math.floor(Math.random() * avatars.length);
-            return avatars[randomIndex];
-        }
-
         const dataSource = []
         for(var i=0;i<count;i++){
             dataSource.push({
-                                checkbox: table_view.customItem(com_checbox,{checked:true}),
-                                avatar:table_view.customItem(com_avatar,{avatar:getAvatar()}),
                                 name: getRandomName(),
-                                age:getRandomAge(),
+                                age: getRandomAge(),
                                 address: getRandomAddresses(),
                                 nickname: getRandomNickname(),
-                                longstring:"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好",
                                 action: table_view.customItem(com_action),
                                 minimumHeight:50
                             })
@@ -350,4 +354,17 @@ FluContentPage{
         table_view.dataSource = root.dataSource
     }
 
+    function addField(){
+        let data = {
+            name: "Sample",
+            age: 23,
+            address: "100-200",
+            nickname: "mg",
+            action: table_view.customItem(com_action),
+            minimumHeight:50
+        }
+        root.dataSource.push(data)
+        table_view.dataSource.push(data)
+        table_view.appendRow(data)
+    }
 }

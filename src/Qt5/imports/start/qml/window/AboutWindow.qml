@@ -8,7 +8,7 @@ import "../component"
 FluWindow {
 
     id:window
-    title:"about"
+    title: "About"
     width: 600
     height: 650
     fixSize: true
@@ -26,7 +26,7 @@ FluWindow {
             Layout.leftMargin: 15
             spacing: 14
             FluText{
-                text:"QRCode Generator"
+                text: "Pathology Lab"
                 font: FluTextStyle.Title
                 MouseArea{
                     anchors.fill: parent
@@ -47,7 +47,7 @@ FluWindow {
             Layout.topMargin: 20
             Layout.leftMargin: 15
             FluText{
-                text:"author:"
+                text:"Author:"
             }
             FluText{
                 text:"Adesh Singh"
@@ -63,8 +63,7 @@ FluWindow {
             }
             FluTextButton{
                 id:text_hublink
-                topPadding:0
-                bottomPadding:0
+                padding:0
                 text:"https://github.com/cppqtdev/QtCodeGenerator"
                 Layout.alignment: Qt.AlignBottom
                 onClicked: {
@@ -80,8 +79,7 @@ FluWindow {
                 text:"Youtube :"
             }
             FluTextButton{
-                topPadding:0
-                bottomPadding:0
+                padding:0
                 text:"https://www.youtube.com/@techcoderhub"
                 Layout.alignment: Qt.AlignBottom
                 onClicked: {

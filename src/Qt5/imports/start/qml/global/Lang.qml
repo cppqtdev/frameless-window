@@ -20,6 +20,7 @@ QtObject {
     property string locale
     property string navigation_view_display_mode
     property string other
+    property string report
 
     function zh(){
         home="首页"
@@ -57,6 +58,7 @@ QtObject {
         locale="Locale"
         navigation_view_display_mode="NavigationView Display Mode"
         other="Other"
+        report="Report"
     }
 
     property string __locale

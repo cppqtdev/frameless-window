@@ -5,7 +5,7 @@ import FluentUI 1.0
 
 FluTextBox{
     property var items:[]
-    property string emptyText: "没有找到结果"
+    property string emptyText: "No results found"
     property int autoSuggestBoxReplacement: FluentIcons.Search
     signal itemClicked(var data)
     signal handleClicked

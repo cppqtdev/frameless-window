@@ -13,18 +13,18 @@ FluScrollablePage{
 
     ListModel{
         id:model_header
-        ListElement{
-            icon:"qrc:/qt/qml/start/res/image/ic_home_github.png"
-            title:"QR Code generator GitHub"
-            desc:"The latest QR Code Generator applications."
-            url:"https://github.com/cppqtdev/QtCodeGenerator"
-        }
-        ListElement{
-            icon:"qrc:/qt/qml/start/res/image/logo_openai.png"
-            title:"Youtube"
-            desc:"The latest Qt QML Projects."
-            url:"https://youtube.com/@techcoderhub"
-        }
+//        ListElement{
+//            icon:"qrc:/qt/qml/start/res/image/ic_home_github.png"
+//            title:"Pathology Lab GitHub"
+//            desc:"The latest Pathology Lab applications."
+//            url:"https://github.com/cppqtdev/QtCodeGenerator"
+//        }
+//        ListElement{
+//            icon:"qrc:/qt/qml/start/res/image/logo_openai.png"
+//            title:"Youtube"
+//            desc:"The latest Qt QML Projects."
+//            url:"https://youtube.com/@techcoderhub"
+//        }
     }
 
     Item{
@@ -37,7 +37,7 @@ FluScrollablePage{
             asynchronous: true
             verticalAlignment: Qt.AlignTop
             sourceSize: Qt.size(960,640)
-            source: "qrc:/qt/qml/start/res/image/bg_home_header.png"
+            source: "qrc:/qt/qml/start/res/image/backgroundTop.png"
         }
         Rectangle{
             anchors.fill: parent
@@ -48,7 +48,7 @@ FluScrollablePage{
         }
 
         FluText{
-            text:"QR Code Generator"
+            text:"Pathology Lab"
             font: FluTextStyle.TitleLarge
             anchors{
                 top: parent.top
@@ -257,7 +257,7 @@ FluScrollablePage{
     }
 
     FluText{
-        text: "Recently added samples"
+        text: "Report Features"
         font: FluTextStyle.Title
         Layout.topMargin: 20
         Layout.leftMargin: 20
@@ -273,21 +273,21 @@ FluScrollablePage{
         delegate: com_item
     }
 
-    FluText{
-        text: "Recently updated samples"
-        font: FluTextStyle.Title
-        Layout.topMargin: 20
-        Layout.leftMargin: 20
-    }
+//    FluText{
+//        text: "Recently updated samples"
+//        font: FluTextStyle.Title
+//        Layout.topMargin: 20
+//        Layout.leftMargin: 20
+//    }
 
-    GridView{
-        Layout.fillWidth: true
-        Layout.preferredHeight: contentHeight
-        cellHeight: 120
-        cellWidth: 320
-        interactive: false
-        model: ItemsOriginal.getRecentlyUpdatedData()
-        delegate: com_item
-    }
+//    GridView{
+//        Layout.fillWidth: true
+//        Layout.preferredHeight: contentHeight
+//        cellHeight: 120
+//        cellWidth: 320
+//        interactive: false
+//        model: ItemsOriginal.getRecentlyUpdatedData()
+//        delegate: com_item
+//    }
 
 }

@@ -6,7 +6,7 @@ import FluentUI 1.0
 
 Rectangle {
     property var columnSource
-    property var dataSource
+    property var dataSource: []
     property color borderColor: FluTheme.dark ? "#252525" : "#e4e4e4"
     property alias tableModel: table_model
     id:control
@@ -64,6 +64,13 @@ Rectangle {
             table_model.appendRow(row)
         }
     }
+
+    function appendRow(dataSource){
+        var row = dataSource
+        row.__index = table_model.rowCount + 1
+        table_model.appendRow(row)
+    }
+
     TableModel {
         id:table_model
     }
@@ -171,7 +178,7 @@ Rectangle {
     MouseArea{
         id:scroll_table
         hoverEnabled: true
-        anchors.left: header_vertical.right
+        anchors.left: parent.left
         anchors.top: header_horizontal.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -326,6 +333,7 @@ Rectangle {
                     }
                 }
             }
+
             MouseArea{
                 property var cellItem
                 id:item_loader_layout
@@ -409,21 +417,6 @@ Rectangle {
                 height: 1
                 anchors.bottom: parent.bottom
                 color:"#00000000"
-            }
-            Rectangle{
-                border.color: control.borderColor
-                width: 1
-                height: parent.height
-                anchors.left: parent.left
-                color:"#00000000"
-            }
-            Rectangle{
-                border.color: control.borderColor
-                width: 1
-                height: parent.height
-                anchors.right: parent.right
-                color:"#00000000"
-                visible: column === tableModel.columnCount - 1
             }
             MouseArea{
                 id:column_item_control_mouse
@@ -512,146 +505,7 @@ Rectangle {
             }
         }
     }
-    TableView {
-        id: header_vertical
-        boundsBehavior: Flickable.StopAtBounds
-        anchors.top: scroll_table.top
-        anchors.left: parent.left
-        implicitWidth: Math.max(1, contentWidth)
-        implicitHeight: syncView ? syncView.height : 0
-        syncDirection: Qt.Vertical
-        syncView: table_view
-        clip: true
-        model: TableModel{
-            TableModelColumn {}
-            rows: {
-                if(dataSource)
-                    return dataSource
-                return []
-            }
-        }
-        onContentYChanged:{
-            timer_force_layout.restart()
-        }
-        Timer{
-            interval: 50
-            id:timer_force_layout
-            onTriggered: {
-                header_vertical.forceLayout()
-            }
-        }
-        delegate: Rectangle{
-            id:item_control
-            readonly property real cellPadding: 8
-            property bool canceled: false
-            implicitWidth: Math.max(30, row_text.implicitWidth + (cellPadding * 2))
-            implicitHeight: row_text.implicitHeight + (cellPadding * 2)
-            width: implicitWidth
-            height: implicitHeight
-            color: FluTheme.dark ? Qt.rgba(50/255,50/255,50/255,1) : Qt.rgba(247/255,247/255,247/255,1)
-            Rectangle{
-                border.color: control.borderColor
-                width: parent.width
-                height: 1
-                anchors.top: parent.top
-                color:"#00000000"
-            }
-            Rectangle{
-                border.color: control.borderColor
-                width: parent.width
-                height: 1
-                anchors.bottom: parent.bottom
-                visible: row === tableModel.rowCount - 1
-                color:"#00000000"
-            }
-            Rectangle{
-                border.color: control.borderColor
-                width: 1
-                height: parent.height
-                anchors.left: parent.left
-                color:"#00000000"
-            }
-            Rectangle{
-                border.color: control.borderColor
-                width: 1
-                height: parent.height
-                anchors.right: parent.right
-                color:"#00000000"
-            }
-            FluText{
-                id:row_text
-                anchors.centerIn: parent
-                text: row + 1
-            }
-            MouseArea{
-                id:item_control_mouse
-                anchors.fill: parent
-                anchors.bottomMargin: 6
-                hoverEnabled: true
-                onCanceled: {
-                    item_control.canceled = true
-                }
-                onContainsMouseChanged: {
-                    if(!containsMouse){
-                        item_control.canceled = false
-                    }
-                }
-                onClicked:
-                    (event)=>{
-                        closeEditor()
-                    }
-            }
-            MouseArea{
-                property point clickPos: "0,0"
-                height: 6
-                width: parent.width
-                anchors.bottom: parent.bottom
-                acceptedButtons: Qt.LeftButton
-                cursorShape: Qt.SplitVCursor
-                visible: {
-                    var obj = table_model.getRow(row)
-                    return !(obj.height === obj.minimumHeight && obj.height === obj.maximumHeight && obj.height)
-                }
-                onPressed :
-                    (mouse)=>{
-                        header_vertical.interactive = false
-                        FluTools.setOverrideCursor(Qt.SplitVCursor)
-                        clickPos = Qt.point(mouse.x, mouse.y)
-                    }
-                onReleased:{
-                    header_vertical.interactive = true
-                    FluTools.restoreOverrideCursor()
-                }
-                onCanceled: {
-                    header_vertical.interactive = true
-                    FluTools.restoreOverrideCursor()
-                }
-                onPositionChanged:
-                    (mouse)=>{
-                        if(!pressed){
-                            return
-                        }
-                        var obj = table_model.getRow(row)
-                        var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)
-                        var minimumHeight = obj.minimumHeight
-                        var maximumHeight = obj.maximumHeight
-                        var h = obj.height
-                        if(!h){
-                            h = d.defaultItemHeight
-                        }
-                        if(!minimumHeight){
-                            minimumHeight = d.defaultItemHeight
-                        }
-                        if(!maximumHeight){
-                            maximumHeight = 65535
-                        }
-                        obj.height = Math.min(Math.max(minimumHeight, h + delta.y),maximumHeight)
-                        table_model.setRow(row,obj)
-                        table_view.forceLayout()
-                    }
-            }
-        }
-    }
+
     function closeEditor(){
         item_loader.sourceComponent = null
     }
@@ -659,6 +513,11 @@ Rectangle {
         scroll_bar_h.position = 0
         scroll_bar_v.position = 0
     }
+
+    function increasePosition(){
+        scroll_bar_v.increase()
+    }
+
     function customItem(comId,options={}){
         var o = {}
         o.comId = comId

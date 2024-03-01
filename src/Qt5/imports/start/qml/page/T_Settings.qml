@@ -4,8 +4,6 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import FluentUI 1.0
 
-
-
 import "../component"
 import "../viewmodel"
 import "../global"
@@ -43,13 +41,13 @@ FluScrollablePage{
             spacing: 20
             anchors.verticalCenter: parent.verticalCenter
             FluText{
-                text:"当前版本 v%1".arg(AppInfo.version)
+                text:"Current version v%1".arg(AppInfo.version)
                 font: FluTextStyle.Body
                 anchors.verticalCenter: parent.verticalCenter
             }
             FluLoadingButton{
                 id:btn_checkupdate
-                text:"检查更新"
+                text:"Check for updates"
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
                     loading = true
@@ -98,11 +96,11 @@ FluScrollablePage{
 
     FluContentDialog{
         id:dialog_restart
-        title:"友情提示"
-        message:"此操作需要重启才能生效，是否重新启动？"
+        title:"friendly reminder"
+        message:"This operation requires a restart to take effect. Do you want to restart?"
         buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.PositiveButton
-        negativeText: "取消"
-        positiveText:"确定"
+        negativeText: "Cancel"
+        positiveText:"Sure"
         onPositiveClicked:{
             FluApp.exit(931)
         }
@@ -168,39 +166,39 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
-        Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 80
-        paddings: 10
+//    FluArea{
+//        Layout.fillWidth: true
+//        Layout.topMargin: 20
+//        height: 80
+//        paddings: 10
 
-        ColumnLayout{
-            spacing: 10
-            anchors{
-                top: parent.top
-                left: parent.left
-            }
+//        ColumnLayout{
+//            spacing: 10
+//            anchors{
+//                top: parent.top
+//                left: parent.left
+//            }
 
-            FluText{
-                text:Lang.locale
-                font: FluTextStyle.BodyStrong
-                Layout.bottomMargin: 4
-            }
+//            FluText{
+//                text:Lang.locale
+//                font: FluTextStyle.BodyStrong
+//                Layout.bottomMargin: 4
+//            }
 
-            Flow{
-                spacing: 5
-                Repeater{
-                    model: Lang.__localeList
-                    delegate: FluRadioButton{
-                        checked: Lang.__locale === modelData
-                        text:modelData
-                        clickListener:function(){
-                            Lang.__locale = modelData
-                        }
-                    }
-                }
-            }
-        }
-    }
+//            Flow{
+//                spacing: 5
+//                Repeater{
+//                    model: Lang.__localeList
+//                    delegate: FluRadioButton{
+//                        checked: Lang.__locale === modelData
+//                        text:modelData
+//                        clickListener:function(){
+//                            Lang.__locale = modelData
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 }

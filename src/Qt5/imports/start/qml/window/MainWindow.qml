@@ -11,7 +11,7 @@ import "../global"
 
 FluWindow {
     id:window
-    title: "QR Code Generator"
+    title: "Pathology Lab"
     width: 1000
     height: 640
     minimumWidth: 520
@@ -32,7 +32,7 @@ FluWindow {
     }
 
     Component.onCompleted: {
-        tour.open()
+        //tour.open()
         //checkUpdate(true)
         //FluEventBus.registerEvent(event_checkupdate)
     }
@@ -45,7 +45,7 @@ FluWindow {
         id:system_tray
         visible: true
         icon.source: "qrc:/qt/qml/start/app.ico"
-        tooltip: "QR Code Generator"
+        tooltip: "Pathology Lab"
         menu: Menu {
             MenuItem {
                 text: "quit"
@@ -72,7 +72,7 @@ FluWindow {
         buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.NeutralButton | FluContentDialogType.PositiveButton
         onNegativeClicked:{
             window.hide()
-            system_tray.showMessage("friendly reminder","QR Code Generator has been hidden in the tray. Click the tray to activate the window again.");
+            system_tray.showMessage("friendly reminder","Pathology Lab has been hidden in the tray. Click the tray to activate the window again.");
         }
         positiveText:"quit"
         neutralText:"Cancel"
@@ -197,7 +197,7 @@ FluWindow {
                 topPadding:FluTools.isMacos() ? 20 : 0
                 displayMode:viewmodel_settings.displayMode
                 logo: "qrc:/qt/qml/start/res/image/app.ico"
-                title:"QR Code Generator"
+                title: "Pathology Lab"
                 onLogoClicked:{
                     clickCount += 1
                     showSuccess("Click%1Second-rate".arg(clickCount))
